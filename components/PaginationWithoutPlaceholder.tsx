@@ -14,12 +14,10 @@ const fetchProjects = async (page: number) => {
 export default function PaginationWithoutPlaceholder() {
   const [page, setPage] = useState(1);
 
-  const { data, isPending, isError, error, isFetching, isPlaceholderData } =
-    useQuery({
-      queryKey: ["projects", page],
-      queryFn: () => fetchProjects(page),
-      // placeholderData: keepPreviousData,
-    });
+  const { data, isPending, isError, error, isFetching } = useQuery({
+    queryKey: ["projects", page],
+    queryFn: () => fetchProjects(page),
+  });
 
   return (
     <div className="space-y-4">
@@ -50,7 +48,6 @@ export default function PaginationWithoutPlaceholder() {
         <button
           className="border px-4 py-1 rounded"
           onClick={() => setPage((p) => p + 1)}
-          disabled={isPlaceholderData}
         >
           다음
         </button>
@@ -58,9 +55,6 @@ export default function PaginationWithoutPlaceholder() {
 
       {isFetching && (
         <p className="text-sm text-gray-500">데이터 불러오는 중...</p>
-      )}
-      {isPlaceholderData && (
-        <p className="text-sm text-orange-500">이전 페이지 데이터 표시 중</p>
       )}
     </div>
   );
